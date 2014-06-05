@@ -115,6 +115,25 @@
 			segments.closeSegment(this, segment);
 		}
 	};
+	
+	d3pie.prototype.overSegment = function (index) {
+		if (this.options.effects.highlightSegmentOnMouseover) {
+			var segment = $("#" + this.cssPrefix + "segment" + index)[0];
+			var segColor = this.options.colors[index];
+			d3.select(segment).style("fill", helpers.getColorShade(segColor, this.options.effects.highlightLuminosity));
+		}
+	};
+
+	d3pie.prototype.outSegment = function (index) {
+		if (this.options.effects.highlightSegmentOnMouseover) {
+			var segment = $("#" + this.cssPrefix + "segment" + index)[0];
+			var color = this.options.colors[index];
+			if (this.options.misc.gradient.enabled) {
+				color = "url(#" + this.cssPrefix + "grad" + index + ")";
+			}
+			d3.select(segment).style("fill", color);
+		}
+	};
 
 	// this let's the user dynamically update aspects of the pie chart without causing a complete redraw. It
 	// intelligently re-renders only the part of the pie that the user specifies. Some things cause a repaint, others
