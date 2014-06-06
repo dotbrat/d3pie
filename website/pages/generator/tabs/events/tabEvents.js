@@ -19,6 +19,11 @@ define([
 			displayStr: "function(info) {\n    console.log(\"mouseover:\", info);\n}",
 			func: function(seg) { console.log("mouseover:", seg); }
 		},
+        onMousemoveSegment: {
+			enabled: false,
+			displayStr: "function(info) {\n    console.log(\"mousemove:\", info);\n}",
+			func: function(seg) { console.log("mouseover:", seg); }
+		},
 		onMouseoutSegment: {
 			enabled: false,
 			displayStr: "function(info) {\n    console.log(\"mouseout:\", info);\n}",
@@ -39,6 +44,7 @@ define([
 		config.callbacks = {
 			onload: _callbackInfo.onload.displayStr,
 			onMouseoverSegment: _callbackInfo.onMouseoverSegment.displayStr,
+			onMousemoveSegment: _callbackInfo.onMousemoveSegment.displayStr,
 			onMouseoutSegment: _callbackInfo.onMouseoutSegment.displayStr,
 			onClickSegment: _callbackInfo.onClickSegment.displayStr
 		};
@@ -71,6 +77,10 @@ define([
 					_callbackInfo.onMouseoverSegment.enabled = true;
 					func = _callbackInfo.onMouseoverSegment.func;
 					break;
+                case "callbacks.onMousemoveSegment":
+					_callbackInfo.onMousemoveSegment.enabled = true;
+					func = _callbackInfo.onMousemoveSegment.func;
+					break;
 				case "callbacks.onMouseoutSegment":
 					_callbackInfo.onMouseoutSegment.enabled = true;
 					func = _callbackInfo.onMouseoutSegment.func;
@@ -90,6 +100,9 @@ define([
 				case "callbacks.onMouseoverSegment":
 					_callbackInfo.onMouseoverSegment.enabled = false;
 					break;
+                case "callbacks.onMousemoveSegment":
+					_callbackInfo.onMousemoveSegment.enabled = false;
+					break;
 				case "callbacks.onMouseoutSegment":
 					_callbackInfo.onMouseoutSegment.enabled = false;
 					break;
@@ -103,12 +116,13 @@ define([
 			prop: prop,
 			value: func
 		});
-	}
+	};
 
 	var _getTabData = function() {
 		return {
 			onload: (_callbackInfo.onload.enabled) ? _callbackInfo.onload.func : null,
 			onMouseoverSegment: (_callbackInfo.onMouseoverSegment.enabled) ? _callbackInfo.onMouseoverSegment.func : null,
+			onMousemoveSegment: (_callbackInfo.onMousemoveSegment.enabled) ? _callbackInfo.onMousemoveSegment.func : null,
 			onMouseoutSegment: (_callbackInfo.onMouseoutSegment.enabled) ? _callbackInfo.onMouseoutSegment.func : null,
 			onClickSegment: (_callbackInfo.onClickSegment.enabled) ? _callbackInfo.onClickSegment.func : null
 		};

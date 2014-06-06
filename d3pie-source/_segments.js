@@ -97,7 +97,7 @@ var segments = {
 				$segment = $("#" + pie.cssPrefix + "segment" + index);
 			}
 			var isExpanded = $segment.attr("class") === pie.cssPrefix + "expanded";
-			segments.onSegmentEvent(pie, pie.options.callbacks.onClickSegment, $segment, isExpanded);
+			segments.onSegmentEvent(pie, e, pie.options.callbacks.onClickSegment, $segment, isExpanded);
 			if (pie.options.effects.pullOutSegmentOnClick.effect !== "none") {
 				if (isExpanded) {
 					segments.closeSegment(pie, $segment[0]);
@@ -122,8 +122,20 @@ var segments = {
 				d3.select($segment[0]).style("fill", helpers.getColorShade(segColor, pie.options.effects.highlightLuminosity));
 			}
 			var isExpanded = $segment.attr("class") === pie.cssPrefix + "expanded";
-			segments.onSegmentEvent(pie, pie.options.callbacks.onMouseoverSegment, $segment, isExpanded);
+			segments.onSegmentEvent(pie, e, pie.options.callbacks.onMouseoverSegment, $segment, isExpanded);
 		});
+
+        $arc.on("mousemove", function (e) {
+            var $segment;
+			if (d3.select(e.currentTarget).attr("class") === pie.cssPrefix + "arc") {
+				$segment = $(e.currentTarget).find("path");
+			} else {
+				var index = $(e.currentTarget).data("index");
+				$segment = $("#" + pie.cssPrefix + "segment" + index);
+			}
+            var isExpanded = $segment.attr("class") === pie.cssPrefix + "expanded";
+			segments.onSegmentEvent(pie, e, pie.options.callbacks.onMousemoveSegment, $segment, isExpanded);
+        });
 
 		$arc.on("mouseout", function(e) {
 			var $segment;
@@ -145,12 +157,12 @@ var segments = {
 				d3.select($segment[0]).style("fill", color);
 			}
 			var isExpanded = $segment.attr("class") === pie.cssPrefix + "expanded";
-			segments.onSegmentEvent(pie, pie.options.callbacks.onMouseoutSegment, $segment, isExpanded);
+			segments.onSegmentEvent(pie, e, pie.options.callbacks.onMouseoutSegment, $segment, isExpanded);
 		});
 	},
 
 	// helper function used to call the click, mouseover, mouseout segment callback functions
-	onSegmentEvent: function(pie, func, $segment, isExpanded) {
+	onSegmentEvent: function(pie, originalEvent, func, $segment, isExpanded) {
 		if (!$.isFunction(func)) {
 			return;
 		}
@@ -160,7 +172,8 @@ var segments = {
 				segment: $segment[0],
 				index: index,
 				expanded: isExpanded,
-				data: pie.options.data[index]
+				data: pie.options.data[index],
+                originalEvent: originalEvent
 			});
 		} catch(e) { }
 	},

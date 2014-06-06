@@ -118,6 +118,7 @@ var defaultSettings = {
 	callbacks: {
 		onload: null,
 		onMouseoverSegment: null,
+        onMousemoveSegment: null,
 		onMouseoutSegment: null,
 		onClickSegment: null
 	}

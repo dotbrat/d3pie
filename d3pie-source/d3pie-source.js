@@ -160,6 +160,7 @@
 
 			case "callbacks.onload":
 			case "callbacks.onMouseoverSegment":
+            case "callbacks.onMousemoveSegment":
 			case "callbacks.onMouseoutSegment":
 			case "callbacks.onClickSegment":
 			case "effects.pullOutSegmentOnClick.effect":
